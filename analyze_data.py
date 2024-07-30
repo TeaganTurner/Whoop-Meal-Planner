@@ -70,12 +70,20 @@ recovery_score_dict_list = []
 
 # Parse cycle and recovery scores from strings to dictionaries
 for i in range(len(cycle_score)):
-    parsed_dict = ast.literal_eval(cycle_score[i])
-    cycle_score_dict_list.append(parsed_dict)
+    if pd.notna(cycle_score[i]):
+        try:
+            parsed_dict = ast.literal_eval(cycle_score[i])
+            cycle_score_dict_list.append(parsed_dict)
+        except (ValueError, SyntaxError) as e:
+            print(f"Error parsing cycle_score at index {i}: {e}")
 
 for i in range(len(recovery_score)):
-    recovery_parsed_dict = ast.literal_eval(recovery_score[i])
-    recovery_score_dict_list.append(recovery_parsed_dict)
+    if pd.notna(recovery_score[i]):
+        try:
+            recovery_parsed_dict = ast.literal_eval(recovery_score[i])
+            recovery_score_dict_list.append(recovery_parsed_dict)
+        except (ValueError, SyntaxError) as e:
+            print(f"Error parsing recovery_score at index {i}: {e}")
 
 def get_recent_strain():
     '''Retrieves the most recent strain score.
